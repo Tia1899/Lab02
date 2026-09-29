@@ -1,6 +1,17 @@
+import csv
+from _pyrepl import reader
+
+
 def carica_da_file(file_path):
     """Carica le foto dal file, creando un nuovo anno ogni volta che compare per la prima volta"""
     # TODO
+#inizio eercizio
+with open('{file_path}', 'r') as file:
+    anni=[]
+    for line in file:
+        reader = csv.DictReader(file)
+        if reader.anno not in anni:
+            anni.append(reader.anno)
 
 
 def aggiungi_foto(album, codice, titolo, autore, mese, anno, file_path):
