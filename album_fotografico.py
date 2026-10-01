@@ -6,12 +6,17 @@ def carica_da_file(file_path):
     """Carica le foto dal file, creando un nuovo anno ogni volta che compare per la prima volta"""
     # TODO
 #inizio eercizio
-with open('{file_path}', 'r') as file:
-    anni=[]
+with open('album_fotografico.csv', 'r') as file:
+    #ho provato a usare un dizionario di liste di dizionari
+    anni={}
     for line in file:
-        reader = csv.DictReader(file)
-        if reader.anno not in anni:
-            anni.append(reader.anno)
+        reader = csv.DictReader(file) #leggo come un dizionario
+        foto={"codice":reader.codice,"titolo":reader.titolo,"autore":reader.autore,"mese":reader.mese,}
+        if reader.anno not in anni: #se non c'è l'anno lo aggiungo
+            anni[reader.anno] = []
+            anni[reader.codice].append(foto)
+        else:
+            anni[reader.anno].append(foto)#se invece l'anno c'è aggiungo solo il dizionario coi dati
 
 
 def aggiungi_foto(album, codice, titolo, autore, mese, anno, file_path):
