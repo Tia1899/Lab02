@@ -6,23 +6,29 @@ def carica_da_file(file_path):
     """Carica le foto dal file, creando un nuovo anno ogni volta che compare per la prima volta"""
     # TODO
 #inizio eercizio
-with open('album_fotografico.csv', 'r') as file:
-    #ho provato a usare un dizionario di liste di dizionari
-    anni={}
-    for line in file:
-        reader = csv.DictReader(file) #leggo come un dizionario
-        foto={"codice":reader.codice,"titolo":reader.titolo,"autore":reader.autore,"mese":reader.mese,}
-        if reader.anno not in anni: #se non c'è l'anno lo aggiungo
-            anni[reader.anno] = []
-            anni[reader.codice].append(foto)
-        else:
-            anni[reader.anno].append(foto)#se invece l'anno c'è aggiungo solo il dizionario coi dati
+    with open( file_path , 'r') as file:
+        #ho provato a usare un dizionario di liste di dizionari
+        anni={}
+        for line in file:
+            reader = csv.DictReader(file) #leggo come un dizionario
+            foto={"codice":reader.codice,"titolo":reader.titolo,"autore":reader.autore,"mese":reader.mese,}
+            if reader.anno not in anni: #se non c'è l'anno lo aggiungo
+                anni[reader.anno] = [] #prima creo la lista
+                anni[reader.codice].append(foto)# poi aggiungo i dati della foto
+            else:
+                anni[reader.anno].append(foto)#se invece l'anno c'è aggiungo solo il dizionario coi dati
+    return anni as album
 
 
 def aggiungi_foto(album, codice, titolo, autore, mese, anno, file_path):
     """Aggiunge una foto all'album, creando l'anno al volo se non è ancora presente"""
     # TODO
-
+#inizio esercizio
+#sulla falsa riga della creazione dell'album
+    if anno not in album: #controllo di esistenza dell'anno
+        album[anno] = []
+        foto={"codice":codice,"titolo":titolo,"autore":autore,"mese":mese}
+        album[anno].append(foto) #aggiunta della foto secondo le specifiche fornite
 
 def cerca_foto(album, codice):
     """Cerca una foto nell'album dato il codice"""
