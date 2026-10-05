@@ -17,7 +17,7 @@ def carica_da_file(file_path):
                 anni[reader.codice].append(foto)# poi aggiungo i dati della foto
             else:
                 anni[reader.anno].append(foto)#se invece l'anno c'è aggiungo solo il dizionario coi dati
-    return anni as album
+    return anni
 
 
 def aggiungi_foto(album, codice, titolo, autore, mese, anno, file_path):
@@ -29,10 +29,16 @@ def aggiungi_foto(album, codice, titolo, autore, mese, anno, file_path):
         album[anno] = []
         foto={"codice":codice,"titolo":titolo,"autore":autore,"mese":mese}
         album[anno].append(foto) #aggiunta della foto secondo le specifiche fornite
+    return album
 
 def cerca_foto(album, codice):
     """Cerca una foto nell'album dato il codice"""
     # TODO
+    #inizio esercizio
+    for anno in album:
+        for foto in album[anno]:
+            if foto["codice"] == codice:
+                print(foto["codice"], foto["titolo"], foto["autore"], foto["mese"], album["anno"])
 
 
 def elenco_foto_anno_per_titolo(album, anno):
