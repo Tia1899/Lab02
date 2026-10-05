@@ -4,37 +4,41 @@ from _pyrepl import reader
 
 def carica_da_file(file_path):
     """Carica le foto dal file, creando un nuovo anno ogni volta che compare per la prima volta"""
-    # TODO
-#inizio eercizio
-    with open( file_path , 'r') as file:
-        #ho provato a usare un dizionario di liste di dizionari
-        anni={}
-        for line in file:
-            reader = csv.DictReader(file) #leggo come un dizionario
-            foto={"codice":reader.codice,"titolo":reader.titolo,"autore":reader.autore,"mese":reader.mese,}
-            if reader.anno not in anni: #se non c'è l'anno lo aggiungo
-                anni[reader.anno] = [] #prima creo la lista
-                anni[reader.codice].append(foto)# poi aggiungo i dati della foto
-            else:
-                anni[reader.anno].append(foto)#se invece l'anno c'è aggiungo solo il dizionario coi dati
-    return anni
-
+    try:
+        with open( file_path , 'r') as file:
+            #ho provato a usare un dizionario di liste di dizionari
+            anni={}
+            for line in file:
+                reader = csv.DictReader(file) #leggo come un dizionario
+                foto={"codice":reader.codice,"titolo":reader.titolo,"autore":reader.autore,"mese":reader.mese,}
+                if reader.anno not in anni: #se non c'è l'anno lo aggiungo
+                    anni[reader.anno] = [] #prima creo la lista
+                    anni[reader.codice].append(foto)# poi aggiungo i dati della foto
+                else:
+                    anni[reader.anno].append(foto)#se invece l'anno c'è aggiungo solo il dizionario coi dati
+        return anni
+    except FileNotFoundError:
+        return None
 
 def aggiungi_foto(album, codice, titolo, autore, mese, anno, file_path):
     """Aggiunge una foto all'album, creando l'anno al volo se non è ancora presente"""
-    # TODO
-#inizio esercizio
-#sulla falsa riga della creazione dell'album
-    if anno not in album: #controllo di esistenza dell'anno
-        album[anno] = []
-        foto={"codice":codice,"titolo":titolo,"autore":autore,"mese":mese}
-        album[anno].append(foto) #aggiunta della foto secondo le specifiche fornite
-    return album
+
+       with open(file_path, 'a') as file: #sulla falsa riga della creazione dell'album
+           writer = csv.writer(file)
+            if anno not in album: #controllo di esistenza dell'anno
+                album[anno] = []
+                foto={"codice":codice,"titolo":titolo,"autore":autore,"mese":mese}
+                album[anno].append(foto) #aggiunta della foto secondo le specifiche fornite
+            else:
+                foto = {"codice": codice, "titolo": titolo, "autore": autore, "mese": mese}
+                album[anno].append(foto)
+            writer.writerow([codice, titolo, autore, mese, anno])
+            nuova_foto="{codice} ,{titolo} ,{autore}, {mese}, {anno}"
+            return nuova_foto
 
 def cerca_foto(album, codice):
     """Cerca una foto nell'album dato il codice"""
-    # TODO
-    #inizio esercizio
+
     for anno in album:
         for foto in album[anno]:
             if foto["codice"] == codice:
@@ -43,7 +47,7 @@ def cerca_foto(album, codice):
 
 def elenco_foto_anno_per_titolo(album, anno):
     """Ordina i titoli delle foto di un dato anno in ordine alfabetico"""
-    # TODO
+
     titoli = []
     for anno in album:
         for foto in album[anno]:
